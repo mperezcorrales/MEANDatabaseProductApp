@@ -1,0 +1,15 @@
+.container{
+    padding: 10px 30px;
+}
+
+.btn {
+    width: 70px
+}
+
+#resetBtn {
+    margin-left: 15px;
+}
+
+#searchBtn {
+    margin-right: 15px;
+}
