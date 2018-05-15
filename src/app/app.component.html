@@ -1,5 +1,19 @@
+<h1>App BRECA</h1>
+
+<form>
+  <label>Categoría</label>
+  <div style="border: 1px solid grey;">
+    <select class="browser-default" [(ngModel)]="productParameters.DE_CATE" name="category">
+      <option value="" disabled selected>Escoge la Categoría</option>
+      <option *ngFor="let categoryOption of categoryDistinctArray" value="categoryOption">
+        {{categoryOption}}
+      </option>
+    </select>
+  </div>
+</form>
+
 <ul>
   <li *ngFor="let product of products">
-    {{product.DE_ITEM}}
+    {{product | json}}
   </li>
 </ul>
