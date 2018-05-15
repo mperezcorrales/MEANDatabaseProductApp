@@ -18,20 +18,22 @@ export class AppComponent {
   categorySelected = false;
   brandSelected = false;
   familySelected = false;
+  showProducts = false;
 
   categoryDistinctArray: string[];
   brandDistinctArray: string[];
   familyDistinctArray: string[];
 
   constructor(private productService: GetProductsService) {
-    this.getSelectedProducts();
+    // this.getSelectedProducts();
     this.getCategoryDistinctValues();
   }
 
   getSelectedProducts() {
-    this.productService.getProducts().subscribe(response => {
+    this.productService.getProducts(this.productParameters).subscribe(response => {
       console.log('compnent response ', response);
       this.products = response;
+      this.showProducts = true;
     });
   }
 
@@ -60,6 +62,21 @@ export class AppComponent {
       this.familyDistinctArray = response;
       this.brandSelected = true;
     });
+  }
+
+  onFamilySelected($event) {
+    console.log('Selecciono familia ', $event.target.value);
+    console.log('Selecciono marca ', this.productParameters.DE_EQUI);
+    console.log('Selecciono categoria ', this.productParameters.DE_CATE);
+    this.familySelected = true;
+  }
+
+  onResetClicked() {
+    this.categorySelected = false;
+    this.brandSelected = false;
+    this.familySelected = false;
+    this.showProducts = false;
+    this.productParameters.DE_CATE = '';
   }
 
 }

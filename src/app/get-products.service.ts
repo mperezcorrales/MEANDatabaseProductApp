@@ -9,12 +9,12 @@ export class GetProductsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProducts() {
+  getProducts(productParameters: Product) {
     const params = new HttpParams({
       fromObject: {
-        'DE_CATE': 'LATEX',
-        'DE_EQUI': 'AMERICAN COLORS',
-        'DE_FAMI': 'AMERICAN COLORS'
+        'DE_CATE': productParameters.DE_CATE,
+        'DE_EQUI': productParameters.DE_EQUI,
+        'DE_FAMI': productParameters.DE_FAMI
       }
     });
     return this.httpClient.get<Product[]>('/products', {params});
