@@ -49,10 +49,21 @@
     <br>
     <hr>
     <br>
-    <ul>
-      <li *ngFor="let product of products">
-        {{product | json}}
-      </li>
-    </ul>
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col-4">Id del item</th>
+          <th scope="col-8">Nombre del item</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products | paginate: { itemsPerPage: 10, currentPage: p }">
+          <th scope="row">{{product.ID_ITEM}}</th>
+          <td>{{product.DE_ITEM}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <pagination-controls (pageChange)="p = $event" class="pagination" previousLabel="ant" nextLabel="desp" maxSize="6"></pagination-controls>
   </div>
 </div>

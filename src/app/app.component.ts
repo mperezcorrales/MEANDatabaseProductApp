@@ -15,6 +15,8 @@ export class AppComponent {
     DE_FAMI: ''
   };
 
+  p = 1;
+
   categorySelected = false;
   brandSelected = false;
   familySelected = false;
