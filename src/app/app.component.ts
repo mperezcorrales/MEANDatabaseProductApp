@@ -15,13 +15,17 @@ export class AppComponent {
     DE_FAMI: ''
   };
 
+  categorySelected = false;
+  brandSelected = false;
+  familySelected = false;
+
   categoryDistinctArray: string[];
   brandDistinctArray: string[];
   familyDistinctArray: string[];
 
   constructor(private productService: GetProductsService) {
     this.getSelectedProducts();
-    this.getDistinctValues();
+    this.getCategoryDistinctValues();
   }
 
   getSelectedProducts() {
@@ -31,21 +35,31 @@ export class AppComponent {
     });
   }
 
-  getDistinctValues() {
-    this.productService.getDistinct('DE_CATE').subscribe(response => {
+  getCategoryDistinctValues() {
+    this.productService.getDistinctCategory().subscribe(response => {
       console.log('distinct response ', response);
       this.categoryDistinctArray = response;
     });
+  }
 
-    // this.productService.getDistinct('DE_EQUI').subscribe(response => {
-    //   console.log('distinct response ', response);
-    //   this.brandDistinctArray = response;
-    // });
+  onCategorySelected($event) {
+    console.log('Selecciono categoria ', $event.target.value);
+    this.productService.getDistinctBrand($event.target.value).subscribe(response => {
+      console.log('distinct response ', response);
+      this.brandDistinctArray = response;
+      this.categorySelected = true;
+      this.brandSelected = false;
+    });
+  }
 
-    // this.productService.getDistinct('DE_FAMI').subscribe(response => {
-    //   console.log('distinct response ', response);
-    //   this.familyDistinctArray = response;
-    // });
+  onBrandSelected($event) {
+    console.log('Selecciono marca ', $event.target.value);
+    console.log('Selecciono categoria ', this.productParameters.DE_CATE);
+    this.productService.getDistinctFamily(this.productParameters.DE_CATE, $event.target.value).subscribe(response => {
+      console.log('distinct response ', response);
+      this.familyDistinctArray = response;
+      this.brandSelected = true;
+    });
   }
 
 }

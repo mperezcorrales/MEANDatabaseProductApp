@@ -20,13 +20,27 @@ export class GetProductsService {
     return this.httpClient.get<Product[]>('/products', {params});
   }
 
-  getDistinct(distinctParam): Observable<string[]> {
+  getDistinctCategory(): Observable<string[]> {
+    return this.httpClient.get<string[]>('/distinctcategory');
+  }
+
+  getDistinctBrand(selectedCategory): Observable<string[]> {
     const params = new HttpParams({
       fromObject: {
-        'distinctParam': distinctParam
+        'selectedCategory': selectedCategory
       }
     });
-    return this.httpClient.get<string[]>('/distinct', {params});
+    return this.httpClient.get<string[]>('/distinctbrand', {params});
+  }
+
+  getDistinctFamily(selectedCategory, selectedBrand): Observable<string[]> {
+    const params = new HttpParams({
+      fromObject: {
+        'selectedCategory': selectedCategory,
+        'selectedBrand': selectedBrand
+      }
+    });
+    return this.httpClient.get<string[]>('/distinctfamily', {params});
   }
 
 }

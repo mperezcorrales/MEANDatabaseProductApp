@@ -1,19 +1,46 @@
-<h1>App BRECA</h1>
+<div class="container">
+  <h1>App BRECA</h1>
 
-<form>
-  <label>Categoría</label>
-  <div style="border: 1px solid grey;">
-    <select class="browser-default" [(ngModel)]="productParameters.DE_CATE" name="category">
-      <option value="" disabled selected>Escoge la Categoría</option>
-      <option *ngFor="let categoryOption of categoryDistinctArray" value="categoryOption">
-        {{categoryOption}}
-      </option>
-    </select>
-  </div>
-</form>
+  <form>
+    <div class="form-group">
+      <label>Categoría</label>
+      <select class="form-control" [(ngModel)]="productParameters.DE_CATE" name="category" (change)="onCategorySelected($event)">
+        <option value="" disabled selected>Escoge la Categoría</option>
+        <option *ngFor="let categoryOption of categoryDistinctArray" value="{{categoryOption}}">
+          {{categoryOption}}
+        </option>
+      </select>
+    </div>
 
-<ul>
-  <li *ngFor="let product of products">
-    {{product | json}}
-  </li>
-</ul>
+    <div *ngIf="categorySelected" class="form-group">
+      <label>Marca</label>
+      <select class="form-control" [(ngModel)]="productParameters.DE_EQUI" name="brand" (change)="onBrandSelected($event)">
+        <option value="" disabled selected>Escoge la marca</option>
+        <option *ngFor="let brandOption of brandDistinctArray" value="{{brandOption}}">
+          {{brandOption}}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="brandSelected" class="form-group">
+      <label>Familia</label>
+      <select class="form-control" [(ngModel)]="productParameters.DE_FAMI" name="family" (change)="onBrandSelected($event)">
+        <option value="" disabled selected>Escoge la familia</option>
+        <option *ngFor="let familyOption of familyDistinctArray" value="{{familyOption}}">
+          {{familyOption}}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="familySelected">
+      <br>
+      <button type="button" class="btn btn-success pull-right">Buscar</button>
+    </div>
+  </form>
+
+  <ul>
+    <li *ngFor="let product of products">
+      {{product | json}}
+    </li>
+  </ul>
+</div>

@@ -39,11 +39,33 @@ router.get('/products', (req, res) => {
     });
 })
 
-router.get('/distinct', (req, res) => {
+router.get('/distinctcategory', (req, res) => {
     connection((db) => {
         console.log(req.query);
         db.db('test').collection('products')
-            .distinct(req.query.distinctParam)
+            .distinct('DE_CATE')
+            .then((distinctValues) => {
+                res.json(distinctValues);
+            })
+    });
+})
+
+router.get('/distinctbrand', (req, res) => {
+    connection((db) => {
+        console.log(req.query);        
+        db.db('test').collection('products')
+            .distinct('DE_EQUI', {'DE_CATE': req.query.selectedCategory})
+            .then((distinctValues) => {
+                res.json(distinctValues);
+            })
+    });
+})
+
+router.get('/distinctfamily', (req, res) => {
+    connection((db) => {
+        console.log(req.query);        
+        db.db('test').collection('products')
+            .distinct('DE_FAMI', {'DE_CATE': req.query.selectedCategory, 'DE_EQUI': req.query.selectedBrand})
             .then((distinctValues) => {
                 res.json(distinctValues);
             })
