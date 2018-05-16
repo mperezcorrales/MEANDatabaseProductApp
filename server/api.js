@@ -5,7 +5,7 @@ var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 
-// Connects with mongo and then calls the function that receives as parameter with the db
+// This functions is used in every api call to connect with the mongo product database
 const connection = (closure) => {
     return MongoClient.connect('mongodb://localhost:27017/products', (err, db) => {
         if (err) {
@@ -15,60 +15,81 @@ const connection = (closure) => {
     });
 }
 
-let response = {
-    status: 200,
-    message: null,
-    data: []
-}
-
-var sendError = (err, res) => {
-    response.status = 501,
-        response.message = typeof err == "object" ? err.message : err;
-    res.status(501).json(response);
-}
-
 router.get('/products', (req, res) => {
     connection((db) => {
-        console.log(req.query);
-        db.db('test').collection('products')
-            .find({ "DE_CATE": req.query.DE_CATE, "DE_EQUI": req.query.DE_EQUI, "DE_FAMI": req.query.DE_FAMI })
-            .toArray().then((products) => {
-                // response.data = products;
-                res.json(products);
-            })
+        if (db) {
+            db.db('test').collection('products')
+                .find({ "DE_CATE": req.query.DE_CATE, "DE_EQUI": req.query.DE_EQUI, "DE_FAMI": req.query.DE_FAMI })
+                .sort({"ID_ITEM": 1})
+                .toArray().then((products) => {
+                    if (products) {
+                        res.json(products);
+                    } else {
+                        res.status(403).send('The request to get products is valid but there is a server error');
+                    }
+                })
+        } else {
+            res.status(503).send('Error when connecting to database');
+            return;
+        }
     });
 })
 
 router.get('/distinctcategory', (req, res) => {
     connection((db) => {
-        console.log(req.query);
-        db.db('test').collection('products')
-            .distinct('DE_CATE')
-            .then((distinctValues) => {
-                res.json(distinctValues);
-            })
+        if (db) {
+            db.db('test').collection('products')
+                .distinct('DE_CATE')
+                .then((distinctValues) => {
+                    if (distinctValues) {
+                        res.json(distinctValues);
+                    } else {
+                        res.status(403).send('The request to get distinct category is valid but there is a server error');
+                    }
+                })
+        } else {
+            res.status(503).send('Error when connecting to database');
+            return;
+        }
     });
 })
 
 router.get('/distinctbrand', (req, res) => {
     connection((db) => {
-        console.log(req.query);        
-        db.db('test').collection('products')
-            .distinct('DE_EQUI', {'DE_CATE': req.query.selectedCategory})
-            .then((distinctValues) => {
-                res.json(distinctValues);
-            })
+        if (db) {
+            db.db('test').collection('products')
+                .distinct('DE_EQUI', { 'DE_CATE': req.query.selectedCategory })
+                .then((distinctValues) => {
+                    if (distinctValues) {
+                        res.json(distinctValues);
+                    } else {
+                        res.status(403).send('The request to get distinct brand is valid but there is a server error');
+                    }
+                })
+        } else {
+            res.status(503).send('Error when connecting to database');
+            return;
+        }
+
     });
 })
 
 router.get('/distinctfamily', (req, res) => {
     connection((db) => {
-        console.log(req.query);        
-        db.db('test').collection('products')
-            .distinct('DE_FAMI', {'DE_CATE': req.query.selectedCategory, 'DE_EQUI': req.query.selectedBrand})
-            .then((distinctValues) => {
-                res.json(distinctValues);
-            })
+        if (db) {
+            db.db('test').collection('products')
+                .distinct('DE_FAMI', { 'DE_CATE': req.query.selectedCategory, 'DE_EQUI': req.query.selectedBrand })
+                .then((distinctValues) => {
+                    if (distinctValues) {
+                        res.json(distinctValues);
+                    } else {
+                        res.status(403).send('The request to get distinct family is valid but there is a server error');
+                    }
+                })
+        } else {
+            res.status(503).send('Error when connecting to database');
+            return;
+        }
     });
 })
 
