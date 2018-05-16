@@ -30,25 +30,18 @@ export class AppComponent {
     this.getCategoryDistinctValues();
   }
 
-  getSelectedProducts() {
-    this.productService.getProducts(this.productParameters).subscribe(response => {
-      console.log('compnent response ', response);
-      this.products = response;
-      this.showProducts = true;
-    });
-  }
-
+  // This method is used to get all available category options.
+  // It calls the product service getDistinctCategory() method.
   getCategoryDistinctValues() {
     this.productService.getDistinctCategory().subscribe(response => {
-      console.log('distinct response ', response);
       this.categoryDistinctArray = response;
     });
   }
 
+  // This method is called to get all the available brands from the category selected.
+  // It calls the product service getDistinctBrand(selectedCategory) method.
   onCategorySelected($event) {
-    console.log('Selecciono categoria ', $event.target.value);
     this.productService.getDistinctBrand($event.target.value).subscribe(response => {
-      console.log('distinct response ', response);
       this.brandDistinctArray = response;
       this.categorySelected = true;
       this.brandSelected = false;
@@ -56,24 +49,31 @@ export class AppComponent {
     });
   }
 
+  // This method is called to get all the available families from the brand and category selected.
+  // It calls the product service getDistinctFamily(selectedCategory, selectedBrand) method.
   onBrandSelected($event) {
-    console.log('Selecciono marca ', $event.target.value);
-    console.log('Selecciono categoria ', this.productParameters.DE_CATE);
     this.productService.getDistinctFamily(this.productParameters.DE_CATE, $event.target.value).subscribe(response => {
-      console.log('distinct response ', response);
       this.familyDistinctArray = response;
       this.brandSelected = true;
       this.familySelected = false;
     });
   }
 
+  // This method is called to indicate that the family has being selected so the buttons can be shown.
   onFamilySelected($event) {
-    console.log('Selecciono familia ', $event.target.value);
-    console.log('Selecciono marca ', this.productParameters.DE_EQUI);
-    console.log('Selecciono categoria ', this.productParameters.DE_CATE);
     this.familySelected = true;
   }
 
+  // This method is called to get all the available products from the category, brand and family selected.
+  // It calls the product service getProducts(productParameters: Product) method.
+  getSelectedProducts() {
+    this.productService.getProducts(this.productParameters).subscribe(response => {
+      this.products = response;
+      this.showProducts = true;
+    });
+  }
+
+  // This method is called to reset all the selected values and start again.
   onResetClicked() {
     this.categorySelected = false;
     this.brandSelected = false;

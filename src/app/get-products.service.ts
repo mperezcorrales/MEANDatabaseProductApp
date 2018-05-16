@@ -9,6 +9,7 @@ export class GetProductsService {
 
   constructor(private httpClient: HttpClient) { }
 
+  // This method is making a http request to the api to get the products from the selected parameters.
   getProducts(productParameters: Product) {
     const params = new HttpParams({
       fromObject: {
@@ -20,10 +21,13 @@ export class GetProductsService {
     return this.httpClient.get<Product[]>('/products', {params});
   }
 
+  // This method is making a http request to the api to get the available category options.
   getDistinctCategory(): Observable<string[]> {
     return this.httpClient.get<string[]>('/distinctcategory');
   }
 
+  // This method is making a http request to the api to to get the available brands with the category
+  // as parameter.
   getDistinctBrand(selectedCategory): Observable<string[]> {
     const params = new HttpParams({
       fromObject: {
@@ -33,6 +37,8 @@ export class GetProductsService {
     return this.httpClient.get<string[]>('/distinctbrand', {params});
   }
 
+  // This method is making a http request to the api to to get the available families with the category
+  // and brand as parameters.
   getDistinctFamily(selectedCategory, selectedBrand): Observable<string[]> {
     const params = new HttpParams({
       fromObject: {
