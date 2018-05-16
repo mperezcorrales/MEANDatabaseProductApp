@@ -27,7 +27,6 @@ export class AppComponent {
   familyDistinctArray: string[];
 
   constructor(private productService: GetProductsService) {
-    // this.getSelectedProducts();
     this.getCategoryDistinctValues();
   }
 
@@ -53,6 +52,7 @@ export class AppComponent {
       this.brandDistinctArray = response;
       this.categorySelected = true;
       this.brandSelected = false;
+      this.familySelected = false;
     });
   }
 
@@ -63,6 +63,7 @@ export class AppComponent {
       console.log('distinct response ', response);
       this.familyDistinctArray = response;
       this.brandSelected = true;
+      this.familySelected = false;
     });
   }
 

@@ -1,5 +1,9 @@
+body {
+    font-family: 'Lato', sans-serif !important;
+}
+
 .container{
-    padding: 10px 30px;
+    padding: 10px 30px; 
 }
 
 .btn {
@@ -16,4 +20,17 @@
 
 pagination-control {
     margin: 0 -25px;
+}
+
+table {
+    background-color: white;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0; 
 }
