@@ -44,6 +44,8 @@ export class AppComponent {
     this.productService.getDistinctBrand($event.target.value).subscribe(response => {
       this.brandDistinctArray = response;
       this.categorySelected = true;
+      this.productParameters.DE_EQUI = '';
+      this.productParameters.DE_FAMI = '';
       this.brandSelected = false;
       this.familySelected = false;
     });
@@ -55,6 +57,7 @@ export class AppComponent {
     this.productService.getDistinctFamily(this.productParameters.DE_CATE, $event.target.value).subscribe(response => {
       this.familyDistinctArray = response;
       this.brandSelected = true;
+      this.productParameters.DE_FAMI = '';
       this.familySelected = false;
     });
   }
@@ -80,6 +83,8 @@ export class AppComponent {
     this.familySelected = false;
     this.showProducts = false;
     this.productParameters.DE_CATE = '';
+    this.productParameters.DE_EQUI = '';
+    this.productParameters.DE_FAMI = '';
   }
 
 }
